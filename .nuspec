@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.1</version>
+    <authors>Camelonta AB</authors>
+    <owners>Camelonta AB</owners>
+    <id>CamelontaUmbracoUtilities</id>
+    <title>Camelonta Umbraco Utilities</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Camelonta CMS Umbraco Utility funktioner</description>
+    <copyright>Copyright Camelonta AB 2015</copyright>
+    <dependencies>
+      <dependency id="UmbracoCms" version="7.2.4" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Camelonta.Utilities.dll" target="lib" />
+  </files>
+</package>
