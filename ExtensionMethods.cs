@@ -2,11 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Umbraco.Core.Models;
 
 namespace Camelonta.Utilities
 {
     public static class ExtensionMethods
     {
+        #region IPublishedContent
+
+        public static string NavName(this IPublishedContent page)
+        {
+            if (page.GetProperty("navName").HasValue)
+                return page.GetProperty("navName").Value.ToString();
+            return page.Name;
+        }
+
+        #endregion
 
         #region String
 

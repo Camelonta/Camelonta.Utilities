@@ -4,62 +4,65 @@ using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
-/// <summary>
-/// Organizes pages
-/// </summary>
-public class PageOrganizer
+namespace Camelonta.Utilities
 {
     /// <summary>
-    /// Moves pages into year/month folders
+    /// Organizes pages
     /// </summary>
-    public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, string contentTypeToMove, string contentTypeOfContainer, bool moveToMonth = false)
+    public class PageOrganizer
     {
-        foreach (var page in e.SavedEntities)
+        /// <summary>
+        /// Moves pages into year/month folders
+        /// </summary>
+        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, string contentTypeToMove, string contentTypeOfContainer, bool moveToMonth = false)
         {
-            // Not interested in anything but "create" events.
-            if (!page.IsNewEntity()) return;
-
-            // Not interested if the item being added is not a news-page.
-            if (page.ContentType.Alias != contentTypeToMove) return;
-
-            var now = page.ReleaseDate.HasValue ? page.ReleaseDate.Value : DateTime.Now;
-            var year = now.ToString("yyyy");
-            var month = now.ToString("MM");
-
-            IContent yearDocument = null;
-
-            // Get year-document by container (if it is a 4 digit number)
-            int n;
-            if (int.TryParse(page.Parent().Name, out n))
+            foreach (var page in e.SavedEntities)
             {
-                if (n.ToString().Length == 4)
-                    yearDocument = page.Parent();
-            }
-            // Get year-document by parent-siblings
-            if (yearDocument != null)
-                foreach (var child in page.Parent().Children())
+                // Not interested in anything but "create" events.
+                if (!page.IsNewEntity()) return;
+
+                // Not interested if the item being added is not a news-page.
+                if (page.ContentType.Alias != contentTypeToMove) return;
+
+                var now = page.ReleaseDate.HasValue ? page.ReleaseDate.Value : DateTime.Now;
+                var year = now.ToString("yyyy");
+                var month = now.ToString("MM");
+
+                IContent yearDocument = null;
+
+                // Get year-document by container (if it is a 4 digit number)
+                int n;
+                if (int.TryParse(page.Parent().Name, out n))
                 {
-                    if (child.Name == year)
+                    if (n.ToString().Length == 4)
+                        yearDocument = page.Parent();
+                }
+                // Get year-document by parent-siblings
+                if (yearDocument != null)
+                    foreach (var child in page.Parent().Children())
                     {
-                        yearDocument = child;
-                        break;
+                        if (child.Name == year)
+                        {
+                            yearDocument = child;
+                            break;
+                        }
                     }
+
+                if (moveToMonth)
+                {
+                    LogHelper.Warn(this.GetType(), "Move to month is not yet implemented");
                 }
 
-            if (moveToMonth)
-            {
-                LogHelper.Warn(this.GetType(), "Move to month is not yet implemented");
-            }
+                // If the year folder doesn't exist, create it.
+                if (yearDocument == null)
+                {
+                    yearDocument = contentService.CreateContentWithIdentity(year, page.ParentId, contentTypeOfContainer);
+                    contentService.Publish(yearDocument);
+                }
 
-            // If the year folder doesn't exist, create it.
-            if (yearDocument == null)
-            {
-                yearDocument = contentService.CreateContentWithIdentity(year, page.ParentId, contentTypeOfContainer);
-                contentService.Publish(yearDocument);
+                // Move the document into the year folder
+                contentService.Move(page, yearDocument.Id);
             }
-
-            // Move the document into the year folder
-            contentService.Move(page, yearDocument.Id);
         }
     }
 }

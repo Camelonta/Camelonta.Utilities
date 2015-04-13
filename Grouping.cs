@@ -1,39 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 
-/// <summary>
-/// Utillity methods for grouping items
-/// </summary>
-public class Grouping
+namespace Camelonta.Utilities
 {
     /// <summary>
-    /// Groups any list into a list of lists with {itemsPerRow} number of items in each list
+    /// Utillity methods for grouping items
     /// </summary>
-    public static IEnumerable<IEnumerable<T>> GroupListIntoRows<T>(IEnumerable<T> items, int itemsPerRow)
+    public class Grouping
     {
-        var groups = new List<List<T>>();
-        var group = new List<T>();
-        int count = 0;
-
-        foreach (var item in items)
+        /// <summary>
+        /// Groups any list into a list of lists with {itemsPerRow} number of items in each list
+        /// </summary>
+        public static IEnumerable<IEnumerable<T>> GroupListIntoRows<T>(IEnumerable<T> items, int itemsPerRow)
         {
-            count++;
-            if (count % itemsPerRow == 0)
+            var groups = new List<List<T>>();
+            var group = new List<T>();
+            int count = 0;
+
+            foreach (var item in items)
             {
-                group.Add(item);
+                count++;
+                if (count % itemsPerRow == 0)
+                {
+                    group.Add(item);
+                    groups.Add(group);
+                    group = new List<T>();
+                }
+                else
+                {
+                    group.Add(item);
+                }
+            }
+            if (group.Count > 0)
+            {
                 groups.Add(group);
-                group = new List<T>();
             }
-            else
-            {
-                group.Add(item);
-            }
-        }
-        if (group.Count > 0)
-        {
-            groups.Add(group);
-        }
 
-        return groups;
+            return groups;
+        }
     }
 }
