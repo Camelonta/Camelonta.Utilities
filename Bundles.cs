@@ -26,12 +26,20 @@ namespace Camelonta.Utilities
             }
         }
 
-        public class AsIsOrder : IBundleOrderer
+        public AsIsBundleOrderer AsIsBundleOrderer
         {
-            public IEnumerable<BundleFile> OrderFiles(BundleContext context, IEnumerable<BundleFile> files)
+            get
             {
-                return files;
+                return new AsIsBundleOrderer();
             }
+        }
+    }
+
+    public class AsIsBundleOrderer : IBundleOrderer
+    {
+        public IEnumerable<BundleFile> OrderFiles(BundleContext context, IEnumerable<BundleFile> files)
+        {
+            return files;
         }
     }
 }
