@@ -26,7 +26,7 @@ namespace Camelonta.Utilities
             }
         }
 
-        public AsIsBundleOrderer AsIsBundleOrderer
+        public static AsIsBundleOrderer AsIsBundleOrderer
         {
             get
             {
