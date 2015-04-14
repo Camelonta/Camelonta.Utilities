@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Umbraco.Core.Models;
+﻿using Umbraco.Core.Models;
+using Umbraco.Web;
+using Umbraco.Web.Models;
 
 namespace Camelonta.Utilities
 {
@@ -15,6 +13,20 @@ namespace Camelonta.Utilities
             if (page.GetProperty("navName").HasValue)
                 return page.GetProperty("navName").Value.ToString();
             return page.Name;
+        }
+
+        public static string IfPageIsActive(this IPublishedContent page, RenderModel model, string cssClass)
+        {
+            if (model.Content.Id == page.Id)
+                return cssClass;
+            return null;
+        }
+
+        public static string IfPageIsCurrent(this IPublishedContent page, RenderModel model, string cssClass)
+        {
+            if (page.IsAncestorOrSelf(model.Content))
+                return cssClass;
+            return null;
         }
 
         #endregion
