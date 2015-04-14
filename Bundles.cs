@@ -1,6 +1,6 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Web.Optimization;
-using Umbraco.Core;
 
 namespace Camelonta.Utilities
 {
@@ -23,6 +23,14 @@ namespace Camelonta.Utilities
             else
             {
                 BundleTable.EnableOptimizations = true;
+            }
+        }
+
+        public class AsIsOrder : IBundleOrderer
+        {
+            public IEnumerable<BundleFile> OrderFiles(BundleContext context, IEnumerable<BundleFile> files)
+            {
+                return files;
             }
         }
     }
