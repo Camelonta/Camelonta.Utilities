@@ -29,6 +29,11 @@ namespace Camelonta.Utilities
             return null;
         }
 
+        public static string IfPageIsCurrent(this IPublishedContent page, IPublishedContent currentPage, string cssClass)
+        {
+            return page.Id == currentPage.Id ? cssClass : null;
+        }
+
         #endregion
 
         #region String
