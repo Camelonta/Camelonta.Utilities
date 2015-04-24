@@ -22,6 +22,13 @@ namespace Camelonta.Utilities
             return null;
         }
 
+        public static string IfPageIsActive(this IPublishedContent page, IPublishedContent currentPage, string cssClass)
+        {
+            if (currentPage.Id == page.Id)
+                return cssClass;
+            return null;
+        }
+
         public static string IfPageIsCurrent(this IPublishedContent page, RenderModel model, string cssClass)
         {
             if (page.IsAncestorOrSelf(model.Content))
@@ -31,7 +38,9 @@ namespace Camelonta.Utilities
 
         public static string IfPageIsCurrent(this IPublishedContent page, IPublishedContent currentPage, string cssClass)
         {
-            return page.Id == currentPage.Id ? cssClass : null;
+            if (page.IsAncestorOrSelf(currentPage))
+                return cssClass;
+            return null;
         }
 
         #endregion
