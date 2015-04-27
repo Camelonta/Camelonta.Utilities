@@ -14,7 +14,7 @@ namespace Camelonta.Utilities
         /// <summary>
         /// Moves pages into year/month folders
         /// </summary>
-        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, string contentTypeToMove, string contentTypeOfContainer, bool moveToMonth = false)
+        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, string contentTypeToMove = "News", string contentTypeOfContainer = "NewsList", bool moveToMonth = false)
         {
             foreach (var page in e.SavedEntities)
             {
