@@ -38,7 +38,7 @@ namespace Camelonta.Utilities
                         yearDocument = page.Parent();
                 }
                 // Get year-document by parent-siblings
-                if (yearDocument != null)
+                if (yearDocument == null)
                     foreach (var child in page.Parent().Children())
                     {
                         if (child.Name == year)

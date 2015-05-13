@@ -210,7 +210,7 @@
     <Compile Include="Bundles.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Grouping.cs" />
-    <Compile Include="MoveToDatefolder.cs" />
+    <Compile Include="PageOrganizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -248,8 +248,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>SET BOILERPLATE="C:\Work\SVN\Umbraco\Boilerplate\"
+xcopy $(TargetPath) "%25BOILERPLATE%25bin" /Y /D</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
