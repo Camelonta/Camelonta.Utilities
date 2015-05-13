@@ -248,8 +248,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>SET BOILERPLATE="C:\Work\SVN\Umbraco\Boilerplate\"
-xcopy $(TargetPath) "%25BOILERPLATE%25bin" /Y /D</PostBuildEvent>
+    <PostBuildEvent>REM Ta bort REM om ni vill att filerna ska kopieras till boilerplate
+REM SET BOILERPLATE="C:\Work\SVN\Umbraco\Boilerplate\"
+REM xcopy $(TargetPath) "%25BOILERPLATE%25bin" /Y /D</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
