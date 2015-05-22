@@ -43,6 +43,24 @@ namespace Camelonta.Utilities
             return null;
         }
 
+        public static string GetUrl(this IPublishedContent page)
+        {
+            var url = string.Empty;
+            if (page != null)
+            {
+                if (page.HasProperty("externalLink"))
+                {
+                    url = page.GetPropertyValue<string>("externalLink");
+                }
+                else
+                {
+                    url = page.Url;
+                }
+            }
+
+            return url;
+        }
+
         #endregion
 
         #region String
