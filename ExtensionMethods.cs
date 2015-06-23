@@ -1,4 +1,6 @@
-﻿using Umbraco.Core.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Models;
 
@@ -59,6 +61,21 @@ namespace Camelonta.Utilities
             }
 
             return url;
+        }
+
+        public static bool AllowRobotsFollow(this IPublishedContent p)
+        {
+            return p.GetPropertyValue<bool>("robotsFollow") == false;
+        }
+
+        public static bool AllowRobotsIndex(this IPublishedContent p)
+        {
+            return p.GetPropertyValue<bool>("robotsIndex") == false;
+        }
+
+        public static IEnumerable<IPublishedContent> WhereAllowRobotsIndex(this IEnumerable<IPublishedContent> pages)
+        {
+            return pages.Where(AllowRobotsIndex);
         }
 
         #endregion

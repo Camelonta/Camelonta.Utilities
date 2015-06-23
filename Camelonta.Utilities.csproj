@@ -208,6 +208,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bundles.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="ViewModels\Sitemap.cs" />
+    <Compile Include="Controllers\SitemapController.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Grouping.cs" />
     <Compile Include="PageOrganizer.cs" />
@@ -215,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
+    <Content Include="App_Plugins\Camelonta.Utilities\Sitemap.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -248,9 +252,10 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>REM Ta bort REM om ni vill att filerna ska kopieras till boilerplate
-REM SET BOILERPLATE="C:\Work\SVN\Umbraco\Boilerplate\"
-REM xcopy $(TargetPath) "%25BOILERPLATE%25bin" /Y /D</PostBuildEvent>
+    <PostBuildEvent>SET BOILERPLATE="C:\work\SVN\Umbraco\Boilerplate\"
+xcopy $(TargetPath) "%25BOILERPLATE%25bin" /Y /D
+mkdir  "%25BOILERPLATE%25App_Plugins\Camelonta.Utilities"
+xcopy $(SolutionDir)\App_Plugins\Camelonta.Utilities "%25BOILERPLATE%25App_Plugins\Camelonta.Utilities" /Y /D</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
