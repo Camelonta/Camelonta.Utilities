@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Models;
 using Umbraco.Web;
@@ -17,28 +18,28 @@ namespace Camelonta.Utilities
             return page.Name;
         }
 
-        public static string IfPageIsActive(this IPublishedContent page, RenderModel model, string cssClass)
+        public static string IfPageIsCurrent(this IPublishedContent page, RenderModel model, string cssClass)
         {
             if (model.Content.Id == page.Id)
                 return cssClass;
             return null;
         }
 
-        public static string IfPageIsActive(this IPublishedContent page, IPublishedContent currentPage, string cssClass)
+        public static string IfPageIsCurrent(this IPublishedContent page, IPublishedContent currentPage, string cssClass)
         {
             if (currentPage.Id == page.Id)
                 return cssClass;
             return null;
         }
 
-        public static string IfPageIsCurrent(this IPublishedContent page, RenderModel model, string cssClass)
+        public static string IfPageIsActive(this IPublishedContent page, RenderModel model, string cssClass)
         {
             if (page.IsAncestorOrSelf(model.Content))
                 return cssClass;
             return null;
         }
 
-        public static string IfPageIsCurrent(this IPublishedContent page, IPublishedContent currentPage, string cssClass)
+        public static string IfPageIsActive(this IPublishedContent page, IPublishedContent currentPage, string cssClass)
         {
             if (page.IsAncestorOrSelf(currentPage))
                 return cssClass;
@@ -85,6 +86,7 @@ namespace Camelonta.Utilities
         /// <summary>
         /// Truncate string at first word after set length
         /// </summary>
+        [Obsolete("Use umbracos own truncate method")]
         public static string TruncateAtWord(this string value, int length, string endWith = "...")
         {
             if (value == null || value.Length < length || value.IndexOf(" ", length) == -1)
