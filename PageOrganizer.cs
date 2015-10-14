@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Umbraco.Core.Events;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
@@ -11,10 +12,17 @@ namespace Camelonta.Utilities
     /// </summary>
     public class PageOrganizer
     {
+        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService,
+            string contentTypeToMove = "News", string contentTypeOfContainer = "NewsList", bool moveToMonth = false)
+        {
+
+            MoveToDatefolder(e, contentService, new List<string> { contentTypeToMove }, contentTypeOfContainer, moveToMonth);
+        }
+
         /// <summary>
         /// Moves pages into year/month folders
         /// </summary>
-        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, string contentTypeToMove = "News", string contentTypeOfContainer = "NewsList", bool moveToMonth = false)
+        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, List<string> contentTypeToMove, string contentTypeOfContainer = "NewsList", bool moveToMonth = false)
         {
             foreach (var page in e.SavedEntities)
             {
@@ -22,7 +30,7 @@ namespace Camelonta.Utilities
                 if (!page.IsNewEntity()) return;
 
                 // Not interested if the item being added is not a news-page.
-                if (page.ContentType.Alias != contentTypeToMove) return;
+                if (!contentTypeToMove.Contains(page.ContentType.Alias)) return;
 
                 var now = page.ReleaseDate.HasValue ? page.ReleaseDate.Value : DateTime.Now;
                 var year = now.ToString("yyyy");
