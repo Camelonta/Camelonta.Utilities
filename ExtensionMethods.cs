@@ -13,7 +13,7 @@ namespace Camelonta.Utilities
 
         public static string NavName(this IPublishedContent page)
         {
-            if (page.GetProperty("navName").HasValue)
+            if (page.HasProperty("navName") && page.Property("navName").HasValue)
                 return page.GetProperty("navName").Value.ToString();
             return page.Name;
         }
