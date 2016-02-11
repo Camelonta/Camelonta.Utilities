@@ -51,7 +51,15 @@ namespace Camelonta.Utilities
             var url = string.Empty;
             if (page != null)
             {
-                if (page.HasProperty("externalLink"))
+                if (page.DocumentTypeAlias == "home")
+                {
+                    // Get current site
+                    var site = page.Parent;
+
+                    // Use URL from site to get "/" instead of "/home" for example since we're using umbracoInternalRedirectId
+                    url = site.Url;
+                }
+                else if (page.HasProperty("externalLink"))
                 {
                     url = page.GetPropertyValue<string>("externalLink");
                 }
