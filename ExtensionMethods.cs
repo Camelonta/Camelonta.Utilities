@@ -51,7 +51,7 @@ namespace Camelonta.Utilities
             var url = string.Empty;
             if (page != null)
             {
-                if (page.DocumentTypeAlias == "home")
+                if (page.DocumentTypeAlias == "home" && page.Parent.DocumentTypeAlias == "Site")
                 {
                     // Get current site
                     var site = page.Parent;
