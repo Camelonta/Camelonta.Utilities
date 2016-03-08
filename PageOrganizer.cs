@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Umbraco.Core.Events;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
@@ -47,6 +48,7 @@ namespace Camelonta.Utilities
                 }
                 // Get year-document by parent-siblings
                 if (yearDocument == null)
+                {
                     foreach (var child in page.Parent().Children())
                     {
                         if (child.Name == year)
@@ -55,10 +57,6 @@ namespace Camelonta.Utilities
                             break;
                         }
                     }
-
-                if (moveToMonth)
-                {
-                    LogHelper.Warn(this.GetType(), "Move to month is not yet implemented");
                 }
 
                 // If the year folder doesn't exist, create it.
@@ -68,8 +66,26 @@ namespace Camelonta.Utilities
                     contentService.Publish(yearDocument);
                 }
 
-                // Move the document into the year folder
-                contentService.Move(page, yearDocument.Id);
+                if (moveToMonth)
+                {
+                    var monthDocument = yearDocument.Children().FirstOrDefault(x => x.Name == month);
+
+                    // If the month folder doesn't exist, create it.
+                    if (monthDocument == null)
+                    {
+                        monthDocument = contentService.CreateContentWithIdentity(month, yearDocument.Id, contentTypeOfContainer);
+                        contentService.Publish(monthDocument);
+                    }
+
+                    // Move the document into the month folder
+                    contentService.Move(page, monthDocument.Id);
+                }
+
+                else
+                {
+                    // Move the document into the year folder
+                    contentService.Move(page, yearDocument.Id);
+                }
             }
         }
     }
