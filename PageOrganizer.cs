@@ -14,16 +14,16 @@ namespace Camelonta.Utilities
     public class PageOrganizer
     {
         public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService,
-            string contentTypeToMove = "News", string contentTypeOfContainer = "NewsList", bool moveToMonth = false)
+            string contentTypeToMove = "News", string contentTypeOfContainer = "NewsList", bool moveToMonth = false, bool englishMonthNames = false)
         {
 
-            MoveToDatefolder(e, contentService, new List<string> { contentTypeToMove }, contentTypeOfContainer, moveToMonth);
+            MoveToDatefolder(e, contentService, new List<string> { contentTypeToMove }, contentTypeOfContainer, moveToMonth, englishMonthNames);
         }
 
         /// <summary>
         /// Moves pages into year/month folders
         /// </summary>
-        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, List<string> contentTypeToMove, string contentTypeOfContainer = "NewsList", bool moveToMonth = false)
+        public void MoveToDatefolder(SaveEventArgs<IContent> e, IContentService contentService, List<string> contentTypeToMove, string contentTypeOfContainer = "NewsList", bool moveToMonth = false, bool englishMonthNames = false)
         {
             foreach (var page in e.SavedEntities)
             {
@@ -35,7 +35,7 @@ namespace Camelonta.Utilities
 
                 var now = page.ReleaseDate.HasValue ? page.ReleaseDate.Value : DateTime.Now;
                 var year = now.ToString("yyyy");
-                var month = now.ToString("MM");
+                var month = now.ToString("MM").GetMonthFromNumber(englishMonthNames);
 
                 IContent yearDocument = null;
 

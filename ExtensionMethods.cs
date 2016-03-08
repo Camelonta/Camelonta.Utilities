@@ -103,6 +103,24 @@ namespace Camelonta.Utilities
             return value.Substring(0, value.IndexOf(" ", length)) + endWith;
         }
 
+        /// <summary>
+        /// Languages are available in swedish and english
+        /// </summary>
+        public static string GetMonthFromNumber(this string number, bool englishMonthNames)
+        {
+            var fullMonthsEnglish = new string[] { "January", "February", "Mars", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+            var fullMonthsSwedish = new string[] { "Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December" };
+
+            int n;
+            if (!int.TryParse(number, out n))
+                return number;
+
+            if (!englishMonthNames)
+                return fullMonthsSwedish[n];
+
+            return fullMonthsEnglish[n];
+        }
+
         #endregion
     }
 }
