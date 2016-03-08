@@ -116,9 +116,9 @@ namespace Camelonta.Utilities
                 return number;
 
             if (!englishMonthNames)
-                return fullMonthsSwedish[n];
+                return fullMonthsSwedish[n - 1];
 
-            return fullMonthsEnglish[n];
+            return fullMonthsEnglish[n - 1];
         }
 
         #endregion
