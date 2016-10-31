@@ -18,16 +18,40 @@ namespace Camelonta.Utilities.Controllers
 
         private IPublishedContent GetRootNode(string id)
         {
-            IPublishedContent rootNode;
             if (string.IsNullOrEmpty(id))
             {
-                rootNode = Umbraco.TypedContentAtRoot().First();
+                var rootNodes = Umbraco.TypedContentAtRoot();
+
+                // If there are multiple rootnodes
+                if (rootNodes.Count() > 1)
+                {
+                    // Get current host (ex. saljarnas.se)
+                    var host = HttpContext.Request.Url.Host;
+
+                    foreach (var site in Umbraco.TypedContentAtRoot())
+                    {
+                        // Get domains for this site
+                        var siteDomains = UmbracoContext.Application.Services.DomainService.GetAssignedDomains(site.Id, false);
+
+                        // Check if current site contains current url (host)
+                        var siteHasCurrentDomain = siteDomains.FirstOrDefault(s => s.DomainName.Contains(host));
+
+                        if (siteHasCurrentDomain != null)
+                            return site;
+                    }
+                }
+                else
+                {
+                    // If there is only one root-node = return it
+                    return rootNodes.First();
+                }
             }
             else
             {
-                rootNode = Umbraco.TypedContent(id);
+                return Umbraco.TypedContent(id);
             }
-            return rootNode;
+
+            return null;
         }
     }
 }

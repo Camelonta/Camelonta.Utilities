@@ -318,7 +318,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>SET BOILERPLATE="C:\work\SVN\Umbraco\Boilerplate\"
+    <PostBuildEvent>SET BOILERPLATE="C:\work\SVN\Umbraco\Boilerplate\Boilerplate.Web\"
 xcopy "$(TargetPath)" "%25BOILERPLATE%25bin" /Y /D
 mkdir  "%25BOILERPLATE%25App_Plugins\Camelonta.Utilities"
 xcopy "$(SolutionDir)\App_Plugins\Camelonta.Utilities" "%25BOILERPLATE%25App_Plugins\Camelonta.Utilities" /Y /D</PostBuildEvent>
