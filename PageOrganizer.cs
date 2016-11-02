@@ -80,12 +80,31 @@ namespace Camelonta.Utilities
                     // Move the document into the month folder
                     contentService.Move(page, monthDocument.Id);
                 }
-
                 else
                 {
                     // Move the document into the year folder
                     contentService.Move(page, yearDocument.Id);
                 }
+
+                #region Sort year pages
+                try
+                {
+                    var mainNewsPage = yearDocument.Parent();
+
+                    // SORT year-folders by year (newest first)
+                    var sortedYearPages = mainNewsPage.Children().OrderByDescending(p => p.Name).ToArray();
+
+                    for (var i = 0; i < sortedYearPages.Count(); i++)
+                    {
+                        sortedYearPages[i].SortOrder = i;
+                        contentService.SaveAndPublishWithStatus(sortedYearPages[i]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error(typeof(PageOrganizer), "Could not sort year-documents for News", ex);
+                }
+                #endregion
             }
         }
     }
