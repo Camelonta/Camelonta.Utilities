@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using Camelonta.Utilities.ViewModels;
 using Umbraco.Core.Models;
 using Umbraco.Web.Mvc;
@@ -12,8 +14,47 @@ namespace Camelonta.Utilities.Controllers
         {
             return View("~/App_Plugins/Camelonta.Utilities/Sitemap.cshtml", new Sitemap
             {
-                RootNode = GetRootNode(id)
+                //RootNode = GetRootNode(id)
+                RootNodes =  GetRootNodes(id)
             });
+        }
+
+
+        private List<IPublishedContent> GetRootNodes(string id)
+        {
+            var rootNodes = Umbraco.TypedContentAtRoot();
+            var rootList = new List<IPublishedContent>();
+            if (string.IsNullOrEmpty(id))
+            {
+                // If there are multiple rootnodes
+                if (rootNodes.Count() > 1)
+                {
+                    // Get current host (ex. saljarnas.se)
+                    var host = HttpContext.Request.Url.Host;
+
+                    foreach (var site in rootNodes)
+                    {
+                        // Get domains for this site
+                        var siteDomains = UmbracoContext.Application.Services.DomainService.GetAssignedDomains(site.Id, false);
+
+                        // Check if current site contains current url (host)
+                        var siteHasCurrentDomain = siteDomains.FirstOrDefault(s => s.DomainName.Contains(host));
+
+                        if (siteHasCurrentDomain != null)
+                            rootList.Add(site);
+                        //return site;
+                    }
+                    return rootList;
+                }
+                else
+                {
+                    // If there is only one root-node = return it as list
+                    rootList.Add(rootNodes.First());
+                    return rootList;
+                }
+            }
+
+            return null;
         }
 
         private IPublishedContent GetRootNode(string id)
