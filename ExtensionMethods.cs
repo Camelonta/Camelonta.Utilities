@@ -13,7 +13,7 @@ namespace Camelonta.Utilities
 
         public static string NavName(this IPublishedContent page)
         {
-            if (page.GetProperty("navName").HasValue)
+            if (page.HasProperty("navName") && page.GetProperty("navName").HasValue)
                 return page.GetProperty("navName").Value.ToString();
             return page.Name;
         }
@@ -51,7 +51,15 @@ namespace Camelonta.Utilities
             var url = string.Empty;
             if (page != null)
             {
-                if (page.HasProperty("externalLink"))
+                if (page.DocumentTypeAlias == "home" && page.Parent.DocumentTypeAlias == "Site")
+                {
+                    // Get current site
+                    var site = page.Parent;
+
+                    // Use URL from site to get "/" instead of "/home" for example since we're using umbracoInternalRedirectId
+                    url = site.Url;
+                }
+                else if (page.HasProperty("externalLink"))
                 {
                     url = page.GetPropertyValue<string>("externalLink");
                 }
@@ -93,6 +101,24 @@ namespace Camelonta.Utilities
                 return value;
 
             return value.Substring(0, value.IndexOf(" ", length)) + endWith;
+        }
+
+        /// <summary>
+        /// Languages are available in swedish and english
+        /// </summary>
+        public static string GetMonthFromNumber(this string number, bool englishMonthNames)
+        {
+            var fullMonthsEnglish = new string[] { "January", "February", "Mars", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+            var fullMonthsSwedish = new string[] { "Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December" };
+
+            int n;
+            if (!int.TryParse(number, out n))
+                return number;
+
+            if (!englishMonthNames)
+                return fullMonthsSwedish[n - 1];
+
+            return fullMonthsEnglish[n - 1];
         }
 
         #endregion
