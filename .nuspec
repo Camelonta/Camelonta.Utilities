@@ -1,14 +1,18 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>1.1.6</version>
+    <version>1.1.3.0</version>
     <authors>Camelonta AB</authors>
     <owners>Camelonta AB</owners>
     <id>CamelontaUmbracoUtilities</id>
     <title>Camelonta Umbraco Utilities</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Camelonta CMS Umbraco Utility funktioner</description>
-    <copyright>Copyright Camelonta AB 2016</copyright>
+    <copyright>Copyright Camelonta AB 2015</copyright>
+    <dependencies>
+      <dependency id="UmbracoCms" version="7.2.4" />
+      <dependency id="Microsoft.AspNet.Web.Optimization" version="1.1.3" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\Camelonta.Utilities.dll" target="lib" />
