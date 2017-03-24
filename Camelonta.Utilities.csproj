@@ -22,6 +22,7 @@
     <WebGreaseLibPath>packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -252,10 +253,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>SET BOILERPLATE="C:\work\SVN\Umbraco\Boilerplate\"
-xcopy $(TargetPath) "%25BOILERPLATE%25bin" /Y /D
-mkdir  "%25BOILERPLATE%25App_Plugins\Camelonta.Utilities"
-xcopy $(SolutionDir)\App_Plugins\Camelonta.Utilities "%25BOILERPLATE%25App_Plugins\Camelonta.Utilities" /Y /D</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
