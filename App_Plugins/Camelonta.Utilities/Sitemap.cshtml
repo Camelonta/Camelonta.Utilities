@@ -25,9 +25,10 @@ if (startNode == null)
     return;
 }
 
-foreach (var node in startNode.Children.WhereAllowRobotsIndex())
+
+foreach (var node in startNode.Children)
 {
-    if (node.TemplateId > 0)
+    if (node.AllowRobotsIndex() && node.TemplateId > 0)
     {
             <url>
                 <loc>@GetUrlWithDomainPrefix(node)</loc>
