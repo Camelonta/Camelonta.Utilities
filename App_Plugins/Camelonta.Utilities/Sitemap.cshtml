@@ -20,39 +20,38 @@
 
 @helper ListChildNodes(IPublishedContent startNode)
 {
-if (startNode == null)
-{
-    return;
-}
-
-
-foreach (var node in startNode.Children)
-{
-    if (node.AllowRobotsIndex() && node.TemplateId > 0)
+    if (startNode == null)
     {
+        return;
+    }
+    
+    foreach (var node in startNode.Children)
+    {
+        if (node.AllowRobotsIndex() && node.TemplateId > 0)
+        {
             <url>
                 <loc>@GetUrlWithDomainPrefix(node)</loc>
                 <lastmod>@(string.Format("{0:s}+00:00", node.UpdateDate))</lastmod>
             </url>
-    }
-    if (node.Level <= 100 && node.Children.Any())
-    {
+        }
+        if (node.Level <= 100 && node.Children.Any())
+        {
             @ListChildNodes(node)
+        }
     }
-}
 }
 
 @functions {
-        private static string GetUrlWithDomainPrefix(IPublishedContent rootNode)
+    private static string GetUrlWithDomainPrefix(IPublishedContent rootNode)
+    {
+        var urlAbsolute = rootNode.UrlAbsolute();
+
+        // If url is startpage/firstpage we should just return absolute-url without a path-value
+        if (rootNode.UrlName == "hem" || rootNode.UrlName == "home" || rootNode.UrlName == "start")
         {
-            var urlAbsolute = rootNode.UrlAbsolute();
-
-            // If url is startpage/firstpage we should just return absolute-url without a path-value
-            if (rootNode.UrlName == "hem" || rootNode.UrlName == "home" || rootNode.UrlName == "start")
-            {
-                return urlAbsolute.Replace(rootNode.UrlName, "");
-            }
-
-            return urlAbsolute;
+            return urlAbsolute.Replace(rootNode.UrlName, "");
         }
+
+        return urlAbsolute;
+    }
 }
